@@ -110,7 +110,7 @@ get '/views/:widget?.html' do
 end
 
 get '/*' do
-  dashboard = File.join(params[:splat])
+  dashboard = @dashboard || File.join(params[:splat])
   protected!
   tilt_html_engines.each do |suffix, _|
     file = File.join(settings.views, "#{dashboard}.#{suffix}")
