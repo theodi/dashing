@@ -6,7 +6,6 @@ require 'coffee-script'
 require 'sass'
 require 'json'
 require 'yaml'
-require 'thin'
 
 SCHEDULER = Rufus::Scheduler.new
 
@@ -50,7 +49,7 @@ end
 end
 
 not_found do
-  send_file File.join(settings.public_folder, '404.html'), status: 404
+  send_file File.join(settings.public_folder, '404.html')
 end
 
 at_exit do
@@ -70,17 +69,17 @@ get '/events', provides: 'text/event-stream' do
   response.headers['X-Accel-Buffering'] = 'no' # Disable buffering for nginx
   response.headers['Access-Control-Allow-Origin'] = '*' # For Yaffle eventsource polyfill
   response.headers['Cache-Control'] = 'no-cache' # For Yaffle eventsource polyfill
-
+  
   stream :keep_open do |out|
     settings.connections << out
-
+  
     # For Yaffle eventsource polyfill
     #Add 2k padding for IE
     str = ":".ljust(2049) << "\n"
     #add retry key
     str << "retry: 2000\n"
     out << str
-
+    
     out << latest_events
     out.callback { settings.connections.delete(out) }
   end
@@ -130,16 +129,6 @@ get '/*' do
   end
 
   halt 404
-end
-
-Thin::Server.class_eval do
-  def stop_with_connection_closing
-    Sinatra::Application.settings.connections.dup.each(&:close)
-    stop_without_connection_closing
-  end
-
-  alias_method :stop_without_connection_closing, :stop
-  alias_method :stop, :stop_with_connection_closing
 end
 
 def send_event(id, body, target=nil)

@@ -2,9 +2,9 @@
 
 Gem::Specification.new do |s|
   s.name        = 'dashing'
-  s.version     = '1.3.4'
-  s.date        = '2014-05-30'
-  s.executables = %w(dashing)
+  s.version     = '1.3.x'
+  s.date        = '2013-11-21'
+  s.executables << 'dashing'
 
 
   s.summary     = "The exceptionally handsome dashboard framework."
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency('sinatra', '~> 1.4.4')
   s.add_dependency('sinatra-contrib', '~> 1.4.2')
   s.add_dependency('thin', '~> 1.6.1')
-  s.add_dependency('rufus-scheduler', '~> 2.0.24')
+  s.add_dependency('rufus-scheduler', '~> 3.0.3')
   s.add_dependency('thor', '~> 0.18.1')
   s.add_dependency('sprockets', '~> 2.10.1')
   s.add_dependency('rack', '~> 1.5.2')
