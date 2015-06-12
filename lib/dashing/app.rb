@@ -73,6 +73,8 @@ get '/events', provides: 'text/event-stream' do
   stream :keep_open do |out|
     settings.connections << out
   
+    sleep(1)
+  
     # For Yaffle eventsource polyfill
     #Add 2k padding for IE
     str = ":".ljust(2049) << "\n"
